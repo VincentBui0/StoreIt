@@ -26,6 +26,7 @@ import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { renameFile } from "@/lib/actions/file.actions";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +43,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
       setIsDropdownOpen(false);
       setAction(null);
       setName(file.name);
-      //   setEmails([]);
+    //   setEmails([]);
     };
   
     const handleAction = async () => {
@@ -50,15 +51,15 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
       setIsLoading(true);
       let success = false;
   
-    //   const actions = {
-    //     rename: () =>
-    //       renameFile({ fileId: file.$id, name, extension: file.extension, path }),
-    //     share: () => updateFileUsers({ fileId: file.$id, emails, path }),
-    //     delete: () =>
-    //       deleteFile({ fileId: file.$id, bucketFileId: file.bucketFileId, path }),
-    //   };
+      const actions = {
+        rename: () =>
+          renameFile({ fileId: file.$id, name, extension: file.extension, path }),
+        // share: () => updateFileUsers({ fileId: file.$id, emails, path }),
+        // delete: () =>
+        //   deleteFile({ fileId: file.$id, bucketFileId: file.bucketFileId, path }),
+      };
   
-    //   success = await actions[action.value as keyof typeof actions]();
+      success = await actions[action.value as keyof typeof actions]();
   
       if (success) closeAllModals();
   
